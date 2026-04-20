@@ -1,0 +1,11 @@
+{
+    "name": "Pathong.Paopeawcustomlighting.Tests",
+    "references": [
+        "Pathong.Paopeawcustomlighting"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}

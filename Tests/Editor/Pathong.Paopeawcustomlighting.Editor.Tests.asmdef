@@ -1,0 +1,14 @@
+{
+    "name": "Pathong.Paopeawcustomlighting.Editor.Tests",
+    "references": [
+        "Pathong.Paopeawcustomlighting.Editor",
+        "Pathong.Paopeawcustomlighting"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

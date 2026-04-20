@@ -1,0 +1,10 @@
+{
+    "name": "Pathong.Paopeawcustomlighting.Editor",
+    "references": [
+      "Pathong.Paopeawcustomlighting"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
