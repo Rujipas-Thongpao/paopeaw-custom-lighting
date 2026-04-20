@@ -73,9 +73,12 @@ Material:
     - _Occlusion: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SSSStrength: 0.445
-    - _ShadowSmoothness: 0.084
-    - _ShadowThreshold: 0.5
+    - _RimSmoothness: 0.1
+    - _RimStrength: 1
+    - _RimThreshold: 0.5
+    - _SSSStrength: 0.578
+    - _ShadowSmoothness: 0
+    - _ShadowThreshold: 0.547
     - _Smoothness: 1
     - _SpecularSmoothness: 0.268
     - _SpecularStrength: 0.78
@@ -84,6 +87,7 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 0.52118194, g: 0.56731427, b: 0.6037736, a: 1}
+    - _RimColor: {r: 1, g: 0.74801046, b: 0.32264146, a: 1}
     - _ShadowColor: {r: 0.4707191, g: 0.61050344, b: 0.7735849, a: 0}
     - _Shadowmask: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
