@@ -116,8 +116,8 @@ Material:
     - _EmissionStrength: 1
     - _EnvironmentReflections: 1
     - _FresnelSmoothness: 0.302
-    - _FresnelStrength: 1.39
-    - _FresnelThreshold: 0.9
+    - _FresnelStrength: 0.85
+    - _FresnelThreshold: 0.798
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
