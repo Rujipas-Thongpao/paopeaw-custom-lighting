@@ -73,10 +73,11 @@ Material:
     - _Occlusion: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ShadowSmoothness: 0.269
-    - _ShadowThreshold: 0.481
+    - _SSSStrength: 0.445
+    - _ShadowSmoothness: 0.084
+    - _ShadowThreshold: 0.5
     - _Smoothness: 1
-    - _SpecularSmoothness: 0
+    - _SpecularSmoothness: 0.268
     - _SpecularStrength: 0.78
     - _SpecularThreshold: 0.91
     m_Colors:
