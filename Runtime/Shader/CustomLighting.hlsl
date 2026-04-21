@@ -9,6 +9,8 @@
 // Keyword Pragmas
 //------------------------------------------------------------------------------------------------------
 
+
+
 #ifndef SHADERGRAPH_PREVIEW
 	#if SHADERPASS != SHADERPASS_FORWARD && SHADERPASS != SHADERPASS_GBUFFER
 		// #if to avoid "duplicate keyword" warnings if this is included in a Lit Graph
@@ -118,6 +120,17 @@ void MainLightShadows_float(float3 WorldPos, out float ShadowAtten){
 	- Boolean Keyword, Global Multi-Compile "LIGHTMAP_SHADOW_MIXING"
 	- (also LIGHTMAP_ON, but I believe Shader Graph is already defining this one)
 */
+// #include "Packages/com.unity.render-pipelines.core/Runtime/Lighting/ProbeVolume/ProbeVolume.hlsl"
+
+// void SampleAPV_float(float3 positionWS, float3 normalWS, out float3 color)
+// {
+// 	#ifdef SHADERGRAPH_PREVIEW
+// 		bakedGI = float3(0, 0, 0); 
+// 	#else
+// 		EvaluateAdaptiveProbeVolume(positionWS,normalWS,color);
+// 	#endif
+// }
+
 void Shadowmask_half(float2 lightmapUV, out half4 Shadowmask){
 	#ifdef SHADERGRAPH_PREVIEW
 		Shadowmask = half4(1,1,1,1);

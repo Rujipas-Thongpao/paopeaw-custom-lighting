@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 1a5a8ce71b788ca45bd9832d53870911, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -65,7 +65,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 63627729f36b3c440945a7cd992dabe4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -122,25 +122,29 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
-    - _MetallicStrength: 1
+    - _MetallicStrength: 0.5
     - _MidtoneWidth: 0.139
-    - _NormalStrength: 3.4
-    - _OcclusionStrength: 1
+    - _NormalStrength: 1.97
+    - _OcclusionStrength: 0.539
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _RimSmoothness: 0.1
+    - _RimStrength: 1
+    - _RimThreshold: 0.823
+    - _SSSStrength: 0.72
     - _ShadowKernelRadius: 0.1
-    - _ShadowSmoothness: 0.153
+    - _ShadowSmoothness: 0.08
     - _ShadowTexChannel: 0.16
     - _ShadowTexStrength: 0.49
     - _ShadowTextureEnabled: 0
-    - _ShadowThreshold: 0.081
+    - _ShadowThreshold: 0.6
     - _Smoothness: 0.65
     - _SmoothnessStrength: 0.429
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SpecularSmoothness: 0.151
-    - _SpecularStrength: 2
+    - _SpecularStrength: 7.05
     - _SpecularThreshold: 0.637
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
@@ -148,12 +152,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.5982493, b: 0.3066038, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _MidtoneColor: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 0}
-    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0, g: 0.046064492, b: 0.554717, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_BuildTextureStacks: []

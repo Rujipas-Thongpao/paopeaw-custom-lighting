@@ -38,6 +38,7 @@ void StylizedMainLight_float(
     float  Smoothness,
     float  ShadowThreshold,
     float  ShadowSmoothness,
+    float  SSSStrength,
     float3 ShadowColor,
     float  SpecularStrength,
     float3 SpecularColor,
@@ -60,7 +61,7 @@ void StylizedMainLight_float(
             mainLight.direction, mainLight.color, mainLight.shadowAttenuation, mainLight.distanceAttenuation,
             PositionWS, NormalWS, ViewDirWS,
             Albedo, Metallic, Smoothness,
-            ShadowThreshold, ShadowSmoothness, ShadowColor,
+            ShadowThreshold, ShadowSmoothness, ShadowColor, SSSStrength,
             SpecularStrength, SpecularColor,
             SpecularThreshold, SpecularSmoothness);
     #endif

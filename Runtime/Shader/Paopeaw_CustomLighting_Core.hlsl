@@ -5,7 +5,7 @@ float3 EvalMainLight(
     float3 direction, float3 color, float shadowAttenuation, float distanceAttenuation,
     float3 positionWS, float3 normalWS, float3 viewWS,
     float3 albedo, float smoothness, float metallic,
-    float  shadowThreshold,    float  shadowSmoothness,   float3 shadowColor,
+    float  shadowThreshold,    float  shadowSmoothness,   float3 shadowColor, float sssStrength,
     float  specularStrength,   float3 specularColor,
     float  specularThreshold,  float  specularSmoothness)
 {
@@ -15,28 +15,30 @@ float3 EvalMainLight(
     half3 H     = normalize(V + L);
     half  NdotL = dot(N, L) * 0.5 + 0.5;
 
-    float shadow = saturate(color * shadowAttenuation * distanceAttenuation * NdotL);
+    float shadow = saturate(shadowAttenuation * distanceAttenuation * NdotL);
 
     half shadowEdge = smoothstep(
         shadowThreshold - shadowSmoothness,
         shadowThreshold + shadowSmoothness,
         shadow);
-    shadowEdge += step(shadowThreshold + shadowSmoothness - 0.01, shadow) * color;
-
+    half3 sss = smoothstep( shadowThreshold - sssStrength, shadowThreshold, shadow) * color;
+    shadowEdge += sss;
+    
+    shadowEdge *= color;
     half3 shadowTint = (1.0h - shadow) * shadowColor;
+    shadowTint = lerp(shadowColor, 1.0, shadow);
 
-    half3 diffuse = color * albedo;
-
-    half3 specF0 = lerp(half3(0.04h, 0.04h, 0.04h), albedo, metallic);
     half  gloss  = exp2(smoothness * 10.0h + 1.0h);
     half  NdotH  = saturate(dot(N, H));
-    half3 spec   = pow(NdotH, gloss) * specF0;
+    half3 spec   = pow(NdotH, gloss);
     spec = smoothstep(
-        specularThreshold - specularSmoothness * 0.5,
-        specularThreshold + specularSmoothness * 0.5,
+        specularThreshold - specularSmoothness,
+        specularThreshold + specularSmoothness,
         spec);
-    spec *= color * specularStrength * specularColor;
+    spec *= color * specularStrength * specularColor * NdotL;
 
+    half3 diffuse = color * albedo;
+    
     return spec + diffuse * shadowEdge + shadowTint;
 }
 
@@ -103,9 +105,9 @@ float3 AccumAdditionalLights(
     uint pixelLightCount = GetAdditionalLightsCount();
     LIGHT_LOOP_BEGIN(pixelLightCount)
         Light light = GetAdditionalLight(lightIndex, positionWS, shadowMask);
-        #ifdef _LIGHT_LAYERS
-        if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
-        #endif
+        // #ifdef _LIGHT_LAYERS
+        // if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+        // #endif
         {
             lighting += EvalAdditionalLight(
                 light.direction, light.color,

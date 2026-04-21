@@ -1,41 +1,56 @@
-Shader "Custom/shd_unlit_pbr"
+Shader "Techart/Paopeaw/shd_unlit_pbr"
 {
     Properties
     {
+        [Header(Base)]
+        [Space(4)]
         [MainColor] _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         [MainTexture] _BaseMap("Base Map", 2D) = "white" {}
         _NormalMap ("Normal Map", 2D) = "bump" {}
         _NormalStrength ("Normal Strength", Range(0,10)) = 0.5
-        _MODSMap ("MODS Map (R=Metallic, G=Occlusion, B=Smoothness, A=Emission)", 2D) = "white" {}
+        _MOSEMap ("MOSE Map (R=Metallic, G=Occlusion, B=Smoothness, A=Emissive)", 2D) = "white" {}
         _MetallicStrength  ("Metallic",  Range(0,1)) = 1.0
         _OcclusionStrength ("Occlusion", Range(0,1)) = 1.0
-        _SmoothnessStrength("Smoothness",Range(0,1)) = 0.5
+        _SmoothnessStrength("Smoothness", Range(0,1)) = 0.5
         _EmissionColor     ("Emission Color", Color) = (0,0,0,1)
         _EmissionStrength  ("Emission Strength", Float) = 1.0
 
-        _AmbientStrength ("ambient strength",float) = 0.1
+        [Space(8)]
+        [Header(Lighting)]
+        [Space(4)]
+        _AmbientStrength ("Ambient Strength", Float) = 0.1
 
-        _ShadowThreshold ("Shadow Threshold", Range(0,1))= 0.5
+        [Space(8)]
+        [Header(Shadow)]
+        [Space(4)]
+        _ShadowThreshold  ("Shadow Threshold",  Range(0,1)) = 0.5
         _ShadowSmoothness ("Shadow Smoothness", Range(0,1)) = 0.0
-        _ShadowColor ("Shadow Color", Color) = (0, 0, 0, 0)
+        _ShadowColor      ("Shadow Color", Color) = (0, 0, 0, 0)
+        _SSSStrength      ("SSS Strength", Float) = 0.3
 
-        _MidtoneColor ("Midtone Color", Color) = (0.3, 0.3, 0.4, 0)
-        _MidtoneWidth ("Midtone Width", Range(0,1)) = 0.2
-
-        [Toggle(_SHADOW_TEXTURE)] _ShadowTextureEnabled ("Shadow Texture", Float) = 0
-        _ShadowTex ("Shadow Texture", 2D) = "white" {}
-        _ShadowTexStrength ("Shadow Tex Strength", Range(0,1)) = 0.3
-        _ShadowTexChannel ("Shadow Tex Channel (0=R 1=G 2=B 3=A)", Range(0,3)) = 0
-
-        _SpecularStrength ("Specular strength", float ) = 1.0
-        _SpecularColor ("Specular Color", Color) = (1,1,1,1)
-        _SpecularThreshold ("Specular Threshold", Range(0,1))= 0.5
+        [Space(8)]
+        [Header(Specular)]
+        [Space(4)]
+        _SpecularStrength   ("Specular Strength",   Float)      = 1.0
+        _SpecularColor      ("Specular Color",      Color)      = (1,1,1,1)
+        _SpecularThreshold  ("Specular Threshold",  Range(0,1)) = 0.5
         _SpecularSmoothness ("Specular Smoothness", Range(0,1)) = 0.0
-        
-        _FresnelColor ("Fresnel Color", Color) = (1,1,1,1)
-        _FresnelStrength ("Fresnel Strength", Float) = 1.0
-        _FresnelThreshold ("Fresnel Threshold", Range(0,1)) = .8
-        _FresnelSmoothness ("Fresnel Smoothness", Range(0,1)) = .1
+
+        [Space(8)]
+        [Header(Fresnel)]
+        [Space(4)]
+        _FresnelColor      ("Fresnel Color",      Color)      = (1,1,1,1)
+        _FresnelStrength   ("Fresnel Strength",   Float)      = 1.0
+        _FresnelThreshold  ("Fresnel Threshold",  Range(0,1)) = 0.8
+        _FresnelSmoothness ("Fresnel Smoothness", Range(0,1)) = 0.1
+
+        [Space(8)]
+        [Header(Rim Light)]
+        [Space(4)]
+        _RimColor      ("Rim Color",      Color)      = (1,1,1,1)
+        _RimStrength   ("Rim Strength",   Float)      = 1.0
+        _RimThreshold  ("Rim Threshold",  Range(0,1)) = 0.5
+        _RimSmoothness ("Rim Smoothness", Range(0,1)) = 0.1
     }
 
     SubShader
@@ -118,6 +133,7 @@ Shader "Custom/shd_unlit_pbr"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/AmbientOcclusion.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/GlobalIllumination.hlsl"
             #include "./Paopeaw_CustomLighting_Core.hlsl"
+            
 
             // -------------------------------------
             // Vertex input / output
@@ -148,44 +164,49 @@ Shader "Custom/shd_unlit_pbr"
 
             // -------------------------------------
             // Textures
-            TEXTURE2D(_BaseMap);        SAMPLER(sampler_BaseMap);
-            TEXTURE2D(_MODSMap);        SAMPLER(sampler_MODSMap);
-            TEXTURE2D(_NormalMap);      SAMPLER(sampler_NormalMap);
-            TEXTURE2D(_ShadowTex);      SAMPLER(sampler_ShadowTex);
-            TEXTURE2D(_BlurredShadowTex); SAMPLER(sampler_BlurredShadowTex);
+            TEXTURE2D(_BaseMap);   SAMPLER(sampler_BaseMap);
+            TEXTURE2D(_MOSEMap);   SAMPLER(sampler_MOSEMap);
+            TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
 
             // -------------------------------------
             // Per-material constants
             CBUFFER_START(UnityPerMaterial)
+                // Base
                 half4  _BaseColor;
                 float4 _BaseMap_ST;
+                float  _NormalStrength;
                 half   _MetallicStrength;
                 half   _OcclusionStrength;
                 half   _SmoothnessStrength;
                 half4  _EmissionColor;
                 half   _EmissionStrength;
 
-                float  _NormalStrength;
+                // Lighting
                 float  _AmbientStrength;
-                float  _SpecularStrength;
 
+                // Shadow
                 float  _ShadowThreshold;
                 float  _ShadowSmoothness;
                 float4 _ShadowColor;
-                float4 _MidtoneColor;
-                float  _MidtoneWidth;
-                float4 _ShadowTex_ST;
-                float  _ShadowTexStrength;
-                int    _ShadowTexChannel;
+                float  _SSSStrength;
 
+                // Specular
+                float  _SpecularStrength;
+                float4 _SpecularColor;
                 float  _SpecularThreshold;
                 float  _SpecularSmoothness;
-                float4 _SpecularColor;
-            
+
+                // Fresnel
                 float4 _FresnelColor;
-                float _FresnelStrength;
-                float _FresnelThreshold;
-                float _FresnelSmoothness;
+                float  _FresnelStrength;
+                float  _FresnelThreshold;
+                float  _FresnelSmoothness;
+
+                // Rim Light
+                float4 _RimColor;
+                float  _RimStrength;
+                float  _RimThreshold;
+                float  _RimSmoothness;
             CBUFFER_END
 
             float4 GetShadowCoord(float3 positionWS)
@@ -222,6 +243,11 @@ Shader "Custom/shd_unlit_pbr"
                 return bakedGI;
             }
 
+            // void APV_float(float3 positionWS, float3 normalWS, float3 viewDirWS, float2 positionSS, float renderingLayer, out float3 color)
+            // {
+            //     EvaluateAdaptiveProbeVolume(positionWS,normalWS,viewDirWS, positionSS, renderingLayer, color);
+            // }
+            
             float3 GetNormal(Varyings IN)
             {
                 half3 normalTS = UnpackNormalScale(
@@ -271,6 +297,19 @@ Shader "Custom/shd_unlit_pbr"
                 fresnelAmount *= _FresnelColor * _FresnelStrength;
                 return fresnelAmount;
             }
+            
+            half3 RimLight(InputData inputData, Light mainLight)
+            {
+                float NdotV = saturate(dot(normalize(inputData.normalWS), normalize(inputData.viewDirectionWS)));
+                float NdotL = dot(normalize(inputData.normalWS), normalize(mainLight.direction)) + 0.2h;
+                float rimAmount = (1.0 - NdotV) * (NdotL * 0.5 + 0.5);
+                rimAmount = smoothstep(
+                    _RimThreshold - _RimSmoothness,
+                    _RimThreshold + _RimSmoothness,
+                    rimAmount
+                );
+                return rimAmount * _RimColor.rgb * _RimStrength;
+            }
 
             // -------------------------------------
             // Fragment shader
@@ -289,11 +328,11 @@ Shader "Custom/shd_unlit_pbr"
                 inputData.shadowMask            = SAMPLE_SHADOWMASK(IN.staticLightmapUV);
                 inputData.shadowCoord           = GetShadowCoord(IN.positionWS);
 
-                half4 mods      = SAMPLE_TEXTURE2D(_MODSMap, sampler_MODSMap, IN.uv);
-                half  metallic   = mods.r * _MetallicStrength;
-                half  occlusion  = lerp(1.0, mods.g, _OcclusionStrength);
-                half  smoothness = mods.b * _SmoothnessStrength;
-                half  emission   = mods.a * _EmissionStrength;
+                half4 mose      = SAMPLE_TEXTURE2D(_MOSEMap, sampler_MOSEMap, IN.uv);
+                half  metallic   = mose.r * _MetallicStrength;
+                half  occlusion  = lerp(1.0, mose.g, _OcclusionStrength);
+                half  smoothness = mose.b * _SmoothnessStrength;
+                half  emission   = mose.a * _EmissionStrength * _EmissionColor;
 
                 float4 baseTex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
                 half3  albedo  = baseTex.rgb * _BaseColor.rgb;
@@ -311,7 +350,7 @@ Shader "Custom/shd_unlit_pbr"
                     mainLightData.direction, mainLightData.color, mainLightData.shadowAttenuation, mainLightData.distanceAttenuation,
                     inputData.positionWS, inputData.normalWS, inputData.viewDirectionWS,
                     surfaceData.albedo, surfaceData.smoothness, surfaceData.metallic,
-                    _ShadowThreshold, _ShadowSmoothness, _ShadowColor.rgb,
+                    _ShadowThreshold, _ShadowSmoothness, _ShadowColor.rgb, _SSSStrength,
                     _SpecularStrength, _SpecularColor.rgb,
                     _SpecularThreshold, _SpecularSmoothness
                 );
@@ -329,17 +368,16 @@ Shader "Custom/shd_unlit_pbr"
 
                 half3 ambient = inputData.bakedGI * occlusion * ssaoIndirect;
                 half3 reflection = GlossyEnvironmentReflection(R, inputData.positionWS, 1.0h);
-
-                half3 emissive = _EmissionColor.rgb * emission;
                 
-                half3 rawAlbedo = albedo;
+                half3 rawAlbedo = albedo * (1.0 - surfaceData.metallic);
                 albedo = rawAlbedo * mainLight;
-                albedo += rawAlbedo * additionalLight;
+                albedo += additionalLight;
                 albedo += ambient * _AmbientStrength;
                 albedo += reflection * _SpecularStrength * ssaoIndirect;
-                albedo += emissive;
-                albedo *= occlusion;
                 albedo += Fresnel(inputData);
+                albedo += RimLight(inputData, mainLightData);
+                albedo += surfaceData.emission;
+                albedo *= surfaceData.occlusion;
                 albedo *= ssaoDirect * ssaoIndirect;
 
                 if (alpha < 0.1)
