@@ -321,12 +321,13 @@ Shader "Techart/Paopeaw/shd_unlit_pbr"
                 
                 InputData inputData = (InputData)0;
                 inputData.positionWS            = IN.positionWS;
+                inputData.positionCS            = IN.positionHCS;
                 inputData.normalWS              = N;
                 inputData.viewDirectionWS       = V;
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(IN.positionHCS);
-                inputData.bakedGI               = InitialializeBakedGI(IN, inputData);
                 inputData.shadowMask            = SAMPLE_SHADOWMASK(IN.staticLightmapUV);
                 inputData.shadowCoord           = GetShadowCoord(IN.positionWS);
+                inputData.bakedGI               = InitialializeBakedGI(IN, inputData);
 
                 half4 mose      = SAMPLE_TEXTURE2D(_MOSEMap, sampler_MOSEMap, IN.uv);
                 half  metallic   = mose.r * _MetallicStrength;
@@ -345,7 +346,7 @@ Shader "Techart/Paopeaw/shd_unlit_pbr"
                 surfaceData.occlusion  = occlusion;
                 surfaceData.emission   = emission;
 
-                Light mainLightData = GetMainLight(inputData.shadowCoord);
+                Light mainLightData = GetMainLight(inputData.shadowCoord, inputData.positionWS, inputData.shadowMask);
                 float3 mainLight = EvalMainLight(
                     mainLightData.direction, mainLightData.color, mainLightData.shadowAttenuation, mainLightData.distanceAttenuation,
                     inputData.positionWS, inputData.normalWS, inputData.viewDirectionWS,
@@ -367,6 +368,7 @@ Shader "Techart/Paopeaw/shd_unlit_pbr"
                 half ssaoDirect   = aoFactor.directAmbientOcclusion;
 
                 half3 ambient = inputData.bakedGI * occlusion * ssaoIndirect;
+                // return half4(ambient,1.0);
                 half3 reflection = GlossyEnvironmentReflection(R, inputData.positionWS, 1.0h);
                 
                 half3 rawAlbedo = albedo * (1.0 - surfaceData.metallic);
