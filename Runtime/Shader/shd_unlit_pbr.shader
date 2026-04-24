@@ -1,4 +1,4 @@
-Shader "Techart/Paopeaw/shd_unlit_pbr"
+Shader "TechArt/Unlit/shd_unlit_pbr"
 {
     Properties
     {

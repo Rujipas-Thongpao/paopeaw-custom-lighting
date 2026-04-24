@@ -27,6 +27,9 @@
     "m_CategoryData": [
         {
             "m_Id": "ce94b8d6b4524806b956a6348d287cbf"
+        },
+        {
+            "m_Id": "38841ff23ab84dd1970413a97c3fe22a"
         }
     ],
     "m_Nodes": [
@@ -540,7 +543,7 @@
         },
         "preventRotation": false
     },
-    "m_Path": "Shader Graphs",
+    "m_Path": "TechArt/PostProcess/SSAO",
     "m_GraphPrecision": 1,
     "m_PreviewMode": 2,
     "m_OutputNode": {
@@ -1287,6 +1290,14 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "38841ff23ab84dd1970413a97c3fe22a",
+    "m_Name": "Category",
+    "m_ChildObjectList": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalFullscreenSubTarget",
     "m_ObjectId": "3ca96076b7f14c50b1773a921ac14bb9"
 }
@@ -1356,7 +1367,7 @@
     "m_ObjectId": "44862f377fd54272ba22b6a72ae9bc57",
     "m_Title": "Correct UV SS",
     "m_Position": {
-        "x": -1594.4000244140625,
+        "x": -1594.400146484375,
         "y": -519.199951171875
     }
 }
