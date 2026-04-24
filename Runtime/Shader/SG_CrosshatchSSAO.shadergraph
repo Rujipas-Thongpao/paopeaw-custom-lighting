@@ -560,7 +560,7 @@
         },
         "preventRotation": false
     },
-    "m_Path": "Shader Graphs",
+    "m_Path": "TechArt/PostProcess/SSAO",
     "m_GraphPrecision": 1,
     "m_PreviewMode": 2,
     "m_OutputNode": {
@@ -1415,7 +1415,7 @@
     "m_Title": "Correct UV SS",
     "m_Position": {
         "x": -1594.4000244140625,
-        "y": -519.199951171875
+        "y": -519.2000732421875
     }
 }
 
