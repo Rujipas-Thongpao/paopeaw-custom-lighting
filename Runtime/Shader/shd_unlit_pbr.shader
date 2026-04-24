@@ -208,7 +208,9 @@ Shader "Techart/Paopeaw/shd_unlit_pbr"
                 float  _RimThreshold;
                 float  _RimSmoothness;
             CBUFFER_END
-
+            
+            half4 _SSAOColor;
+            
             float4 GetShadowCoord(float3 positionWS)
             {
                 #if defined(MAIN_LIGHT_CALCULATE_SHADOWS)
@@ -366,8 +368,9 @@ Shader "Techart/Paopeaw/shd_unlit_pbr"
                 AmbientOcclusionFactor aoFactor = GetScreenSpaceAmbientOcclusion(inputData.normalizedScreenSpaceUV);
                 half ssaoIndirect = aoFactor.indirectAmbientOcclusion;
                 half ssaoDirect   = aoFactor.directAmbientOcclusion;
+                half3 aoTint = lerp(_SSAOColor.rgb, half3(1,1,1), ssaoIndirect*ssaoDirect);
 
-                half3 ambient = inputData.bakedGI * occlusion * ssaoIndirect;
+                half3 ambient = inputData.bakedGI * occlusion;
                 // return half4(ambient,1.0);
                 half3 reflection = GlossyEnvironmentReflection(R, inputData.positionWS, 1.0h);
                 
@@ -375,12 +378,12 @@ Shader "Techart/Paopeaw/shd_unlit_pbr"
                 albedo = rawAlbedo * mainLight;
                 albedo += additionalLight;
                 albedo += ambient * _AmbientStrength;
-                albedo += reflection * _SpecularStrength * ssaoIndirect;
+                albedo += reflection * _SpecularStrength;
                 albedo += Fresnel(inputData);
                 albedo += RimLight(inputData, mainLightData);
                 albedo += surfaceData.emission;
                 albedo *= surfaceData.occlusion;
-                albedo *= ssaoDirect * ssaoIndirect;
+                albedo *= aoTint;
 
                 if (alpha < 0.1)
                     discard;

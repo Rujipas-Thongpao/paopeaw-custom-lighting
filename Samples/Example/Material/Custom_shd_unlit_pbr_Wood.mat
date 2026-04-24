@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 838369558e5fe1947bcb2a358a87f8ba, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8dd58386fd6828042acf4ae6d6dcd6c7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -105,7 +105,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _AmbientStrength: 0.1
+    - _AmbientStrength: 31.88
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -162,7 +162,7 @@ Material:
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _MidtoneColor: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 0.94716984, g: 0.5655917, b: 0.3484869, a: 1}
-    - _ShadowColor: {r: 0.7584905, g: 0, b: 0.08569417, a: 1}
+    - _ShadowColor: {r: 0.4641509, g: 0.4641509, b: 0.4641509, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_BuildTextureStacks: []
