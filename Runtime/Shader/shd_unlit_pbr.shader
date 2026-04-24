@@ -167,7 +167,8 @@ Shader "TechArt/Unlit/shd_unlit_pbr"
             TEXTURE2D(_BaseMap);   SAMPLER(sampler_BaseMap);
             TEXTURE2D(_MOSEMap);   SAMPLER(sampler_MOSEMap);
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
-
+            TEXTURE2D(_SSAOMap); SAMPLER(sampler_SSAOMap);
+            
             // -------------------------------------
             // Per-material constants
             CBUFFER_START(UnityPerMaterial)
@@ -209,7 +210,13 @@ Shader "TechArt/Unlit/shd_unlit_pbr"
                 float  _RimSmoothness;
             CBUFFER_END
             
-            half4 _SSAOColor;
+            half4 _ssaoColor;
+            float _ssaoThreshold;
+            float _ssaoSmoothness;
+            float _ssaoLightness;
+            float _ssaoTextureDensity;
+            float _ssaoTextureRotation;
+
             
             float4 GetShadowCoord(float3 positionWS)
             {
@@ -300,6 +307,16 @@ Shader "TechArt/Unlit/shd_unlit_pbr"
                 return fresnelAmount;
             }
             
+            half3 SSAO(float ssao, float2 uv, InputData inputData, SurfaceData surfaceData)
+            {
+                float hatch = SAMPLE_TEXTURE2D(_SSAOMap, sampler_SSAOMap, uv * _ssaoTextureDensity );
+                ssao = saturate(step(_ssaoThreshold, ssao) + ssao);
+                float ssao_i = 1.0-saturate(ssao);
+                return lerp(hatch, 1.0, ssao);
+                // float ssaoHatch = lerp(ssao, ssao + _ssaoSmoothness, hatch); 
+                // return lerp(_ssaoColor, 1.0, ssaoHatch);
+            }
+            
             half3 RimLight(InputData inputData, Light mainLight)
             {
                 float NdotV = saturate(dot(normalize(inputData.normalWS), normalize(inputData.viewDirectionWS)));
@@ -334,7 +351,7 @@ Shader "TechArt/Unlit/shd_unlit_pbr"
                 half4 mose      = SAMPLE_TEXTURE2D(_MOSEMap, sampler_MOSEMap, IN.uv);
                 half  metallic   = mose.r * _MetallicStrength;
                 half  occlusion  = lerp(1.0, mose.g, _OcclusionStrength);
-                half  smoothness = mose.b * _SmoothnessStrength;
+                half  smoothness = (1.0-mose.b) * _SmoothnessStrength;
                 half  emission   = mose.a * _EmissionStrength * _EmissionColor;
 
                 float4 baseTex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
@@ -368,7 +385,8 @@ Shader "TechArt/Unlit/shd_unlit_pbr"
                 AmbientOcclusionFactor aoFactor = GetScreenSpaceAmbientOcclusion(inputData.normalizedScreenSpaceUV);
                 half ssaoIndirect = aoFactor.indirectAmbientOcclusion;
                 half ssaoDirect   = aoFactor.directAmbientOcclusion;
-                half3 aoTint = lerp(_SSAOColor.rgb, half3(1,1,1), ssaoIndirect*ssaoDirect);
+                half ssao = ssaoIndirect * ssaoDirect;
+                half3 aoTint = lerp(_ssaoColor.rgb, half3(1,1,1), ssaoIndirect*ssaoDirect);
 
                 half3 ambient = inputData.bakedGI * occlusion;
                 // return half4(ambient,1.0);
