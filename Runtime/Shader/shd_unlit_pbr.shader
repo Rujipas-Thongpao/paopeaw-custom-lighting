@@ -396,7 +396,7 @@ Shader "TechArt/Unlit/shd_unlit_pbr"
                 albedo = rawAlbedo * mainLight;
                 albedo += additionalLight;
                 albedo += ambient * _AmbientStrength;
-                albedo += reflection * _SpecularStrength;
+                // albedo += reflection * _SpecularStrength;
                 albedo += Fresnel(inputData);
                 albedo += RimLight(inputData, mainLightData);
                 albedo += surfaceData.emission;
