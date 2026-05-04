@@ -3,6 +3,7 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 bump-version.js
+bump-version.js.meta
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
